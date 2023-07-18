@@ -12,6 +12,45 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserServiceIMpl {
+@Service
+@AllArgsConstructor
+public class UserServiceIMpl implements UserService {
+	
+	private UserRepository userRepository;
+	
+	@Override
+    public User createUser(User user) {
+        return userRepository.save(user);
+    }
 
+    @Override
+    public User getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.get();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUser(User user) {
+        User existingUser = userRepository.findById(user.getId()).get();
+        existingUser.setName(user.getName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setAddress(user.getAddress());
+        existingUser.setNohp(user.getNohp());
+        existingUser.setPassword(user.getPassword());
+        existingUser.setStatus(user.getStatus());
+        existingUser.setCreatedAt(user.getCreatedAt());
+        existingUser.setUpdatedAt(user.getUpdatedAt());        
+        User updatedUser = userRepository.save(existingUser);
+        return updatedUser;
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }

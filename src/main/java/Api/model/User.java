@@ -5,10 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Data;
 
 
-@Getter
-@Setter
+@Data
+@Getter 
+@Setter 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -18,7 +20,7 @@ public class User {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+	private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false, unique = true)
@@ -32,7 +34,7 @@ public class User {
     @Column(nullable = true)
     private String status;
     @Column(nullable = true)
-    private String created_at;
+    private String createdAt;
     @Column(nullable = true)
-    private String updated_at;
+    private String updatedAt;
 }
