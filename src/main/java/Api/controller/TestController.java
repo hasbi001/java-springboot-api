@@ -6,7 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*; 
 import java.lang.reflect.Array;
-import static org.junit.Assert.*;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 @RestController
@@ -17,9 +18,7 @@ public class TestController {
 	@RequestMapping(value = "count-data/{x}/{y}")
 	@ResponseBody
 	public Integer countData(@PathVariable Integer x,@PathVariable Integer y){
-	    Integer count;
-	    count = x+y;
-		return count;
+		return add(x,y);
 	}
 	
 	@RequestMapping(value = "fibonacy/{x}")
@@ -40,16 +39,33 @@ public class TestController {
 			}
 		}
 
-		int n = 3;
-
-		System.out.print("Bilangan fibonacci pada posisi " + n + " adalah ");
-		// get fibonacci pada posisi ke-4
-		System.out.println(result.get(n));
-
-		System.out.println("\nBarisan fibonacci " + x + " bilangan pertama:");
-		// print semua ArrayList
-		result.forEach((e) -> System.out.println(e));
 		return result;
 	}
 	
+	@RequestMapping(value = "fibonacy/json/{x}")
+	@ResponseBody
+	public JSONArray fibonacyJson(@PathVariable Integer x) {
+		
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		int count=1;    
+		for(int i = 0; i < x; i++) {		
+			if (count <= 1) {
+				result.add(count);
+			} else {
+				int before1 = result.get(i-1);
+				int before2 = result.get(i-2);
+				
+				int value = before1 + before2;
+				result.add(value);
+			}
+		}
+
+		JSONArray jsonresult = new JSONArray(result);
+		return jsonresult;
+	}
+	
+	
+	public Integer add(Integer x, Integer y) {
+		return x+y;
+	}
 }
